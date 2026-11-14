@@ -1,0 +1,82 @@
+// VS Code dentro do Docker: Ctrl+Shift+P -> "Dev Containers: Reopen in Container".
+// Test Explorer, Pylance e terminal passam a usar o ambiente da imagem (todas as dependências).
+{
+    "name": "Unlimited-OCR",
+    "build": {
+        "dockerfile": "../Dockerfile",
+        "context": "..",
+        "target": "dev"
+    },
+    // Roda no host antes de cada build: apaga as imagens "<none>" que os rebuilds anteriores
+    // deixaram (só as do projeto, pelo rótulo do Dockerfile).
+    "initializeCommand": "docker image prune -f --filter label=com.unlimited-ocr.project=uocr",
+    // GPU para rodar o OCR de dentro do container. Sem GPU NVIDIA, remova "--gpus", "all".
+    "runArgs": ["--gpus", "all", "--shm-size", "2gb"],
+    // Reaproveita o modelo baixado pelo `make docker-up` (volume do compose.yaml).
+    "mounts": ["source=unlimited-ocr_uocr-data,target=/data,type=volume"],
+    // Importa o código da pasta aberta, não a cópia instalada na imagem.
+    "containerEnv": {
+        "PYTHONPATH": "${containerWorkspaceFolder}"
+    },
+    "forwardPorts": [7860],
+    "customizations": {
+        "vscode": {
+            // Instaladas automaticamente ao criar/reconstruir o container
+            // (lista de ~/.vscode-server/extensions do container atual).
+            "extensions": [
+                // Python / testes
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-python.vscode-pylance",
+                "ms-python.isort",
+                "ms-python.vscode-python-envs",
+                "donjayamanne.python-environment-manager",
+                "cameron.vscode-pytest",
+                "pamaron.pytest-runner",
+                // Docker / containers
+                "docker.docker",
+                "ms-azuretools.vscode-docker",
+                "ms-azuretools.vscode-containers",
+                // Git
+                "eamodio.gitlens",
+                "mhutchie.git-graph",
+                "donjayamanne.githistory",
+                "mccarter.start-git-bash",
+                // Make / shell
+                "ms-vscode.makefile-tools",
+                "carlos-algms.make-task-provider",
+                "foxundermoon.shell-format",
+                "formulahendry.code-runner",
+                // Markdown
+                "yzhang.markdown-all-in-one",
+                "davidanson.vscode-markdownlint",
+                "shd101wyy.markdown-preview-enhanced",
+                "bierner.markdown-emoji",
+                // JSON / YAML / XML / CSV / SQL / .env
+                "zainchen.json",
+                "aykutsarac.jsoncrack-vscode",
+                "sunaoka.json-unescaped-unicode",
+                "quicktype.quicktype",
+                "redhat.vscode-yaml",
+                "redhat.vscode-xml",
+                "fabianlauer.vs-code-xml-format",
+                "mechatroner.rainbow-csv",
+                "adpyke.vscode-sql-formatter",
+                "irongeek.vscode-env",
+                // Utilitários
+                "gruntfuggly.todo-tree",
+                "louiswt.regexp-preview",
+                "pflannery.vscode-versionlens",
+                "streetsidesoftware.code-spell-checker",
+                "streetsidesoftware.code-spell-checker-portuguese-brazilian",
+                "ms-ceintl.vscode-language-pack-pt-br",
+                "chakrounanas.turbo-console-log",
+                "wakatime.vscode-wakatime",
+                "anthropic.claude-code"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/opt/venv/bin/python"
+            }
+        }
+    }
+}

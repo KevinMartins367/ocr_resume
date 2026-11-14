@@ -1,0 +1,13 @@
+.git
+output
+input
+.venv
+.pytest_cache
+**/__pycache__
+**/*.pyc
+*.jpg
+*.png
+*.pdf
+*.zip
+.coverage
+htmlcov

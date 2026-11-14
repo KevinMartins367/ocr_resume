@@ -1,0 +1,45 @@
+# Nome fixo: o volume vira "unlimited-ocr_uocr-data" em qualquer pasta (o .devcontainer usa esse nome).
+name: unlimited-ocr
+
+services:
+  uocr:
+    build:
+      context: .
+      target: app
+    image: uocr:latest
+    container_name: uocr
+    ports:
+      - "${PORT:-7860}:7860"
+    environment:
+      UOCR_QUANT: ${QUANT:-4bit}
+    volumes:
+      - uocr-data:/data              # modelo (~6,7 GB) + cache dos kernels Triton
+      - ./output:/app/output         # resultados
+      - ./input:/app/input:ro        # arquivos para a CLI (make docker-ocr)
+    shm_size: 2gb
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # Testes (sem GPU). Monta o código da pasta: alterações valem sem rebuild.
+  #   docker compose run --rm test                      -> todos
+  #   docker compose run --rm test pytest tests/x.py    -> um arquivo (usado pelo Pytest Runner)
+  test:
+    build:
+      context: .
+      target: test
+    image: uocr:test
+    profiles: ["test"]
+    environment:
+      PYTHONPATH: /app               # importa /app/uocr (montado) em vez da cópia instalada
+    volumes:
+      - ./uocr:/app/uocr:ro
+      - ./tests:/app/tests:ro
+    command: pytest
+
+volumes:
+  uocr-data:

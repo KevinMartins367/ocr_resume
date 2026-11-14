@@ -1,0 +1,9 @@
+output/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+input/
+HANDOFF.md
+.coverage
+htmlcov/

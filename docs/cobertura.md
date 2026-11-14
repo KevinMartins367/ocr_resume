@@ -1,0 +1,27 @@
+| Name                          |    Stmts |     Miss |    Cover |   Missing |
+|------------------------------ | -------: | -------: | -------: | --------: |
+| uocr/\_\_init\_\_.py          |        1 |        0 |     100% |           |
+| uocr/\_\_main\_\_.py          |        3 |        0 |     100% |           |
+| uocr/adapters/\_\_init\_\_.py |        0 |        0 |     100% |           |
+| uocr/adapters/base.py         |       53 |        0 |     100% |           |
+| uocr/adapters/ocr.py          |       44 |        0 |     100% |           |
+| uocr/adapters/resumo.py       |       48 |        0 |     100% |           |
+| uocr/core/\_\_init\_\_.py     |        0 |        0 |     100% |           |
+| uocr/core/gpu.py              |       11 |        0 |     100% |           |
+| uocr/core/hub.py              |       37 |        0 |     100% |           |
+| uocr/core/util.py             |        8 |        0 |     100% |           |
+| uocr/ocr/\_\_init\_\_.py      |        0 |        0 |     100% |           |
+| uocr/ocr/batch.py             |      115 |        0 |     100% |           |
+| uocr/ocr/cli.py               |       54 |        0 |     100% |           |
+| uocr/ocr/pdf.py               |       45 |        0 |     100% |           |
+| uocr/ocr/pipeline.py          |       85 |        0 |     100% |           |
+| uocr/resumo/\_\_init\_\_.py   |        0 |        0 |     100% |           |
+| uocr/resumo/cli.py            |       42 |        0 |     100% |           |
+| uocr/resumo/folders.py        |       71 |        0 |     100% |           |
+| uocr/resumo/text.py           |       62 |        0 |     100% |           |
+| uocr/services/\_\_init\_\_.py |        0 |        0 |     100% |           |
+| uocr/services/base.py         |       12 |        0 |     100% |           |
+| uocr/services/ocr.py          |       26 |        0 |     100% |           |
+| uocr/services/resumo.py       |       26 |        0 |     100% |           |
+| uocr/web.py                   |      178 |        0 |     100% |           |
+| **TOTAL**                     |  **921** |    **0** | **100%** |           |

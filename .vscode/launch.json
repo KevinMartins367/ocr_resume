@@ -1,0 +1,145 @@
+{
+    // Depuração dentro do Dev Container (Dockerfile, estágio "dev").
+    // Interpretador: /opt/venv/bin/python (venv da imagem, com todas as dependências).
+    // O modelo fica em /data/hf (volume unlimited-ocr_uocr-data), igual ao `make docker-up`.
+    // F5 abre a configuração selecionada no painel "Run and Debug".
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Web: interface (porta 7860)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uocr.web",
+            "python": "/opt/venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--host", "0.0.0.0",
+                "--port", "7860",
+                "--quant", "${input:quant}",
+                "--output", "output/web"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "CLI: OCR do arquivo aberto no editor",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uocr",
+            "python": "/opt/venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${file}",
+                "-o", "output",
+                "--quant", "${input:quant}",
+                "--stream"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "CLI: OCR de um arquivo (caminho)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uocr",
+            "python": "/opt/venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${input:inputPath}",
+                "-o", "output",
+                "--quant", "${input:quant}",
+                "--stream"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Resumo: pastas de um lote (Qwen)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uocr.resumo.cli",
+            "python": "/opt/venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${input:folderPath}",
+                "--stream"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Testes: todos (pytest)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "python": "/opt/venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "args": ["tests"],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Testes: arquivo aberto (pytest)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "python": "/opt/venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "args": ["${file}"],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Python: arquivo atual",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "python": "/opt/venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ],
+    "inputs": [
+        {
+            "id": "quant",
+            "type": "pickString",
+            "description": "Modo de carregamento do modelo",
+            "options": ["4bit", "8bit", "bf16", "offload"],
+            "default": "4bit"
+        },
+        {
+            "id": "inputPath",
+            "type": "promptString",
+            "description": "PDF ou imagem para o OCR (relativo à pasta do projeto)",
+            "default": "docs/exemplos/pagina-livro.jpg"
+        },
+        {
+            "id": "folderPath",
+            "type": "promptString",
+            "description": "Pasta gerada pelo OCR para resumir (um _resumo.md por subpasta)",
+            "default": "output/"
+        }
+    ]
+}

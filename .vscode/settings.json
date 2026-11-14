@@ -1,0 +1,18 @@
+{
+    // Os testes usam pytest em tests/ (sobrescreve o unittest "./test" das configurações globais).
+    // O Test Explorer precisa das dependências do projeto: abra com
+    // "Dev Containers: Reopen in Container" (Docker) ou "WSL: Reopen Folder in WSL".
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+
+    // Projeto Python: a extensão Jest não tem o que testar aqui (evita o erro no painel Testing).
+    "jest.enable": false,
+
+    // Extensão Pytest Runner (uso no Windows): botões 💻 (WSL) e 🐳 (Docker) na barra de status.
+    // O teste selecionado é acrescentado ao fim do comando (ex.: tests/test_batch.py::test_safe_rel).
+    "pytest_runner.pytest_exec": "wsl -d Ubuntu-24.04 --exec bash scripts/run.sh pytest",
+    "pytest_runner.pytest_exec_docker": "docker compose run --rm test pytest"
+}

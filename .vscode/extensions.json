@@ -1,0 +1,8 @@
+{
+    // O VS Code oferece instalar estas extensões ao abrir a pasta.
+    // Dev Containers: necessária para "Reopen in Container" (testes rodando no Docker).
+    "recommendations": [
+        "ms-vscode-remote.remote-containers",
+        "ms-python.python"
+    ]
+}
